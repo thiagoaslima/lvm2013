@@ -1,0 +1,26 @@
+###SublimeText###
+ 
+# SublimeText project files
+/*.sublime-project
+*.sublime-workspace
+sftp-config*.json
+
+
+###SASS###
+ 
+### SASS Ignores - "Sassy CSS" http://sass-lang.com/
+.sass-cache
+
+
+###Windows###
+ 
+# Windows image file caches
+Thumbs.db 
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+

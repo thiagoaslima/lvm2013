@@ -22,21 +22,25 @@
 	text-rendering:optimizeLegibility;
 }
 
+body {
+	background-image: url(img/fundo.jpg);
+	background-repeat: no-repeat;
+	background-position: center center;
+	
+}
+
 .header {
 	width: 60em;
 	margin: 0 auto;
 	color: #84A4AA;
-	font: "Prox";
-	padding: 1.25em 0.625em;
+	font-family: "Prox", sans-serif;
+	padding: 1.25em 0.625em 3.75em;
 }
 .header a {
 	color: #84A4AA;
 }
 .header a:hover {
 	color: #B51009;
-}
-.header a:visited {
-	color: #4F474B;
 }
 .header a:active {
 	color: #D2943F;
@@ -68,6 +72,9 @@
 	margin-left: 5em;
 	clear: both;
 }
+.logo a:hover {
+	border: none;
+}
 
 .address {
 	width: 20em;
@@ -81,4 +88,102 @@
 	font-size: 0.8em;
 	font-weight: normal;
 	line-height: 1.666666667em;
+}
+
+.address a:hover {
+	border-bottom: 1px dotted #B51009;
+}
+
+
+/******** #SIDEBAR NAV ********/
+#main {
+	width: 60em;
+	margin: 0 auto;
+}
+
+.sidebar {
+	width: 10em;
+	padding: 1.5em 1.5em 1.5em 0;
+	border-top: 1px dotted #84A4AA;
+	font-family: 'ProxSC';
+	text-transform: lowercase;
+	float: left;
+}
+.page_item {
+	font-weight: bold;
+	font-size: 0.9375em;
+	line-height: 1.1em;
+	margin-bottom: 1em;
+}
+.page_item a {
+	color: #4F474B;
+}
+.page_item a:hover {
+	color: #D2943F;
+}
+.page_item a:visited {
+	color: #A69689;
+}
+.page_item a:active {
+	color: #FFDDA7;
+}
+.page_item .selected {
+	color: #B51009;
+}
+
+/***** SIDEBAR STICKY *****/
+.sticky-posts {
+	width: 20em;
+	padding-left: 0.625em;
+	font-family: 'ProxSC';
+	font-weight: bold;
+	border-top: 1px dotted #84A4AA;
+	margin-top: 12.5em;
+}
+
+.sticky-posts h3 {
+	font-size: 1.25em;
+	margin: 0 0 1.25em;
+	color: #84A4AA;
+	padding-left: 1em;
+}
+
+.sticky-posts li {
+	font-size: 0.9375em;
+	height: 1.6em;
+	line-height: 1.33333333333333em;
+	margin-bottom: 1.33333333333333em;
+	background-color: #84A4AA;
+	color: #FFFFFF;
+	padding-left: 1.33333333333333em;
+}
+.sticky-posts li:hover {
+	background-color: #1F4482;
+}
+
+/********* #MAIN ********/
+.home #main {
+	background-image: url(img/cell-home.png);
+	background-repeat: no-repeat;
+	background-position: 28em 0;
+}
+.home #content {
+	float: left;
+	width: 30em;
+	padding: 7em 2em 0 0.625em;
+	font-family: Tahoma, Verdana, Segoe, sans-serif;
+	color: #09262E;
+}
+.home .variable {
+	font-size: 0.875em;
+	line-height: 1.6em;
+}
+
+/****** FOOTER ******/
+footer {
+	clear: left;
+}
+
+#content, .sidebar, header, .logo {
+	/* outline: 1px solid;*/
 }

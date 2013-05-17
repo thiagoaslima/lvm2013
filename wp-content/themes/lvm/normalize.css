@@ -99,6 +99,10 @@ body {
 a {
     text-decoration: none;
 }
+a:hover {
+    border-bottom-width: 1px;
+    border-bottom-style: dotted; 
+}
 
 /*
  * Addresses `outline` inconsistency between Chrome and other browsers.

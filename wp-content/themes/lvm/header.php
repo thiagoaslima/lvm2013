@@ -40,13 +40,13 @@
 		
 			<!-- logo -->
 			<div class="logo">
-				<?php if( !is_home() ): ?>
+				<?php if( !is_home() && !is_page('home') ): ?>
 				<a rel="home" href="<?php echo home_url(); ?>">
 				<?php endif; ?>
 					<h1 class="visuallyhidden">Laboratório de Virologia Molecular</h1>
 					<!-- svg logo - toddmotto.com/mastering-svg-use-for-a-retina-web-fallbacks-with-png-script -->
 					<img src="<?php echo get_template_directory_uri(); ?>/img/logo.svg" alt="logo LVM">
-				<?php if( !is_home() ): ?>
+				<?php if( !is_home() && !is_page('home') ): ?>
 				</a>
 				<?php endif; ?>
 			</div>
@@ -56,7 +56,7 @@
 			<div class="address">
 				<h5><a href="http://www.ccsdecania.ufrj.br/" rel="external"><?php _e("Centro de Ciências da Saúde (CCS)", "lvm-lang") ?></a></h5>
 				<p>bloco A, 2º andar, sala 85, Ilha do Fundão <br>Universidade Federal do Rio de Janeiro (UFRJ) <br>
-				<span class="icon-phone"></span> +55 21 2562-6382&emsp;<span class="icon-envelope-alt"></span> faleconosco@lvm.ufrj.br</p>
+				<a href="tel://55-21-2562-6382"><span class="icon-phone"></span> +55 21 2562-6382</a>&emsp;<a href="mailto:faleconosco@lvm.ufrj.br"><span class="icon-envelope-alt"></span> faleconosco@lvm.ufrj.br</a></p>
 			</div>
 			<!-- /nav -->
 		

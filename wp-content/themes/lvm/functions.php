@@ -8,8 +8,23 @@
 /*------------------------------------*\
 	External Modules/Files
 \*------------------------------------*/
+function currPath () {
+    return dirname(__FILE__);
+}
+function path($path, $sep) {
+    $parts = explode($sep, $path);
+    return implode(DIRECTORY_SEPARATOR, $parts);
+} 
 
-// Load any external files you have here
+// include user meta boxes
+if ( is_admin() )
+{
+    if ( file_exists( currPath() . path('/inc/users_profile/init.php', '/') ) )
+    {
+        include 'inc/users_profile/init.php';
+    } 
+    
+}
 
 /*------------------------------------*\
 	Theme Support
@@ -92,11 +107,11 @@ function html5blank_header_scripts()
 {
     if (!is_admin()) {
     
-    	wp_deregister_script('jquery'); // Deregister WordPress jQuery
-    	wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js', array(), '1.9.1', $in_footer = true); // Google CDN jQuery
-    	wp_enqueue_script('jquery'); // Enqueue it!
-    	
-    	/*
+        wp_deregister_script('jquery'); // Deregister WordPress jQuery
+        wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js', array(), '1.9.1', $in_footer = true); // Google CDN jQuery
+        wp_enqueue_script('jquery'); // Enqueue it!
+
+        /*
         wp_register_script('conditionizr', 'http://cdnjs.cloudflare.com/ajax/libs/conditionizr.js/2.2.0/conditionizr.min.js', array(), '2.2.0'); // Conditionizr
         wp_enqueue_script('conditionizr'); // Enqueue it!
         */
@@ -107,6 +122,8 @@ function html5blank_header_scripts()
         wp_register_script('html5blankscripts', get_template_directory_uri() . '/js/scripts.js', array(), '1.0.0', $in_footer = true); // Custom scripts
         wp_enqueue_script('html5blankscripts'); // Enqueue it!
     }
+
+        wp_enqueue_script('jquery-ui-datepicker'); // Enqueue it!
 }
 
 // Load HTML5 Blank conditional scripts
@@ -132,6 +149,15 @@ function html5blank_styles()
     
     wp_register_style('style', get_template_directory_uri() . '/style.css', array(), '1.0', 'all');
     wp_enqueue_style('style'); // Enqueue it!
+
+}
+
+// Load on wp_admin pages
+function admin_pages() {
+    // if( is_page('profile') ) {
+        wp_register_style( 'ui-datepicker', get_template_directory_uri() . '/css/jquery.ui.datepicker.css', $deps = array(), $ver = '1.9.2', $media = 'all' );
+        wp_enqueue_style( 'ui-datepicker' );
+    // }
 }
 
 // Register HTML5 Blank Navigation
@@ -317,7 +343,7 @@ function html5blankcomments($comment, $args, $depth)
 		$add_below = 'div-comment';
 	}
 ?>
-	<<?php echo $tag ?> <?php comment_class(empty( $args['has_children'] ) ? '' : 'parent') ?> id="comment-<?php comment_ID() ?>">
+	<?php echo $tag ?> <?php comment_class(empty( $args['has_children'] ) ? '' : 'parent') ?> id="comment-<?php comment_ID() ?>">
 	<?php if ( 'div' != $args['style'] ) : ?>
 	<div id="div-comment-<?php comment_ID() ?>" class="comment-body">
 	<?php endif; ?>
@@ -359,6 +385,8 @@ add_action('init', 'register_html5_menu'); // Add HTML5 Blank Menu
 add_action('init', 'create_post_type_html5'); // Add our HTML5 Blank Custom Post Type
 add_action('widgets_init', 'my_remove_recent_comments_style'); // Remove inline Recent Comment Styles from wp_head()
 add_action('init', 'html5wp_pagination'); // Add our HTML5 Pagination
+
+add_action( 'admin_enqueue_scripts', 'admin_pages' );
 
 // Remove Actions
 remove_action('wp_head', 'feed_links_extra', 3); // Display the links to the extra feeds such as category feeds

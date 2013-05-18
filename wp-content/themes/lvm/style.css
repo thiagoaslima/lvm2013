@@ -109,7 +109,7 @@ body {
 	text-transform: lowercase;
 	float: left;
 }
-.page_item {
+.sidebar .page_item {
 	font-weight: bold;
 	font-size: 0.9375em;
 	line-height: 1.1em;

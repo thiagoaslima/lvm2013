@@ -7,13 +7,22 @@
 // http://wp.tutsplus.com/tutorials/three-practical-uses-for-custom-meta-boxes/
 // 
 
-function hide_instant_messaging( $contactmethods ) {
-    unset($contactmethods['rich_editing']);
-    unset($contactmethods['aim']);
-    unset($contactmethods['yim']);
-    return $contactmethods;
+function manage_contact_methods( $contactmethods ) {
+
+  unset($contactmethods['yim']);
+  unset($contactmethods['aim']);
+  unset($contactmethods['jabber']);
+
+  $contactmethods['email2'] = __('Email alternativo', 'lvm-lang');
+  $contactmethods['twitter'] = __('Twitter', 'lvm-lang');
+  $contactmethods['facebook'] = __('Facebook', 'lvm-lang');
+  $contactmethods['tel1'] = __('Telefone 1', 'lvm-lang');
+  $contactmethods['tel2'] = __('Telefone 2', 'lvm-lang');
+  $contactmethods['tel3'] = __('Telefone 3', 'lvm-lang');
+
+  return $contactmethods;
 }
-add_filter('user_contactmethods', 'hide_instant_messaging', 10, 1);
+add_filter('user_contactmethods', 'manage_contact_methods', 10, 1);
 
 add_action( 'show_user_profile', 'extra_profile' );
 add_action( 'edit_user_profile', 'extra_profile' );
@@ -23,8 +32,15 @@ function extra_profile( $user ) { ?>
     <script>
         (function (w, $) {
             $(function () {
+
+                <?php 
+                    if ( ! current_user_can('manage_options') ) 
+                    { ?>
+                /* Hide configuration elements */
                 $('h3').first().hide().
                     next('table').hide();
+                        
+                <?php } ?>
 
 
                 /* Brazilian initialisation for the jQuery UI date picker plugin. */
@@ -65,33 +81,12 @@ function extra_profile( $user ) { ?>
 
         <tr>
             <th>
-                <label for="nome"><?php _e('Nome', 'lvm-lang') ?></label>
+                <label for="endereco"><?php _e('Endereço', 'lvm-lang') ?></label>
             </th>
             <td>
-                <input type="text" name="nome" id="nome" value="<?php echo esc_attr( get_the_author_meta( 'nome', $user->ID ) ); ?>" class="regular-text" /><br />
-                <span class="description"><?php _e('Por favor, preencha com seu nome', 'lvm-lang') ?></span>
-            </td>
-        </tr>
-
-        <tr>
-            <th>
-                <label for="sobrenome"><?php _e('Sobrenome', 'lvm-lang') ?></label>
-            </th>
-
-            <td>
-                <input type="text" name="sobrenome" id="sobrenome" value="<?php echo esc_attr( get_the_author_meta( 'sobrenome', $user->ID ) ); ?>" class="regular-text" /><br />
-                <span class="description"><?php _e('Por favor, preencha com seu sobrenome', 'lvm-lang') ?></span>
-            </td>
-        </tr>
-
-        <tr>
-            <th>
-                <label for="citacao"><?php _e('Citação', 'lvm-lang') ?></label>
-            </th>
-
-            <td>
-                <input type="text" name="citacao" id="citacao" value="<?php echo esc_attr( get_the_author_meta( 'citacao', $user->ID ) ); ?>" class="regular-text" /><br />
-                <span class="description"><?php _e('Por favor, preencha com seu citacao', 'lvm-lang') ?></span>
+                <textarea name="endereco" id="endereco" class="regular-text" cols="30" rows="3"><?php echo esc_attr( get_the_author_meta( 'endereco', $user->ID ) ); ?></textarea>
+                <br />
+                <span class="description"><?php _e('Preferencialmente, um endereço para correspondência', 'lvm-lang') ?></span>
             </td>
         </tr>
 
@@ -108,19 +103,40 @@ function extra_profile( $user ) { ?>
 
     </table>
 
-    <!-- CONTATOS -->
+    <!-- DADOS ACADÊMICOS -->
+    <h3>Informações Acadêmicas</h3>
     
       <table class="form-table">
+        
+        <tr>
+            <th>
+                <label for="citacao"><?php _e('Citação', 'lvm-lang') ?></label>
+            </th>
+
+            <td>
+                <input type="text" name="citacao" id="citacao" value="<?php echo esc_attr( get_the_author_meta( 'citacao', $user->ID ) ); ?>" class="regular-text" /><br />
+                <span class="description"><?php _e('Por favor, preencha com seu citação', 'lvm-lang') ?></span>
+            </td>
+        </tr>
+
+        <tr>
+            <th colspan="2">
+                <h4><em><?php _e('Formação Acadêmica', 'lvm-lang') ?></em></h4>
+            </th>
+        </tr>
 
         <tr>
             <th>
-                <label for="nome"><?php _e('Nome', 'lvm-lang') ?></label>
+                <label for="grau-1"><?php _e('Grau Acadêmico', 'lvm-lang') ?></label>
             </th>
+
             <td>
-                <input type="text" name="nome" id="nome" value="<?php echo esc_attr( get_the_author_meta( 'nome', $user->ID ) ); ?>" class="regular-text" /><br />
-                <span class="description"><?php _e('Por favor, preencha com seu nome', 'lvm-lang') ?></span>
+                <select name="grau-1" id="grau-1"></select>
+                <input type="text" name="grau-1" id="grau-1" value="<?php echo esc_attr( get_the_author_meta( 'grau-1', $user->ID ) ); ?>" class="regular-text" /><br />
+                <span class="description"><?php _e('Por favor, preencha com seu Grau', 'lvm-lang') ?></span>
             </td>
         </tr>
+
     </table>
 <?php }
 

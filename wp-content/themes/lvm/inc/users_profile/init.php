@@ -29,54 +29,25 @@ add_action( 'edit_user_profile', 'extra_profile' );
 
 function extra_profile( $user ) { ?>
 
+    <?php
+        $curr_user = get_current_user_id();
+        $user_info = get_userdata( $curr_user );
+        $user_meta = get_user_meta( $curr_user);
+        print_r($user_info);
+        echo '<br /><br /><hr /><br />';
+        print_r($user_meta);
+
+        include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'form.php';
+        
+    ?>
+
     <style type="text/css">
         .formacao .ui-datepicker-calendar { display: none;}
     </style>
 
-    <script>
-        (function (w, $) {
-            $(function () {
-
-                <?php 
-                    if ( !current_user_can('manage_options') ) 
-                    { ?>
-                /* Hide configuration elements */
-                $('h3').first().hide().
-                    next('table').hide();
-                        
-                <?php } ?>
-
-
-                /* Brazilian initialisation for the jQuery UI date picker plugin. */
-                /* Written by Leonildo Costa Silva (leocsilva@gmail.com). */
-                $.datepicker.regional['pt-BR'] = {
-                    closeText: 'Fechar',
-                    prevText: '&#x3C;Anterior',
-                    nextText: 'Próximo&#x3E;',
-                    currentText: 'Hoje',
-                    monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
-                    'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-                    monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun',
-                    'Jul','Ago','Set','Out','Nov','Dez'],
-                    dayNames: ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'],
-                    dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],
-                    dayNamesMin: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],
-                    weekHeader: 'Sm',
-                    dateFormat: 'd/mm/yy',
-                    firstDay: 0,
-                    isRTL: false,
-                    showMonthAfterYear: false,
-                    yearSuffix: ''};
-                $.datepicker.setDefaults($.datepicker.regional['pt-BR']);
-
-                $( "#nascimento, .inicio-curso, .fim-curso" ).datepicker({
-                    changeMonth: true,
-                    changeYear: true,
-                });
-            });
-        }(this, this.jQuery));
-    </script>
-
+    <?php 
+        include "adjustments.php";
+    ?>
     <!-- DADOS PESSOAIS -->
     <h3><?php _e('Dados Pessoais', 'lvm-lang') ?></h3>
 
@@ -85,11 +56,11 @@ function extra_profile( $user ) { ?>
         <tr>
             <th>
                 <label for="endereco"><?php _e('Endereço', 'lvm-lang') ?></label>
+                <span class="description"><?php _e('Preferencialmente, um endereço para correspondência', 'lvm-lang') ?></span>
             </th>
             <td>
                 <textarea name="endereco" id="endereco" class="regular-text" cols="30" rows="3"><?php echo esc_attr( get_the_author_meta( 'endereco', $user->ID ) ); ?></textarea>
                 <br />
-                <span class="description"><?php _e('Preferencialmente, um endereço para correspondência', 'lvm-lang') ?></span>
             </td>
         </tr>
 
@@ -225,15 +196,32 @@ function extra_profile( $user ) { ?>
 
         <tr class="formacao formacao-1">
             <th>
-                <label for="co-orientador-1"><?php _e('Nome do co-orientador', 'lvm-lang'); ?></label>
+                <label for="coorientador-1"><?php _e('Nome do co-orientador', 'lvm-lang'); ?></label>
             </th>
 
             <td>
-                <input type="text" name="co-orientador-1" id="co-orientador-1" value="<?php echo esc_attr( get_the_author_meta( 'co-orientador-1', $user->ID ) ); ?>" class="regular-text" /><br>
+                <input type="text" name="coorientador-1" id="coorientador-1" value="<?php echo esc_attr( get_the_author_meta( 'coorientador-1', $user->ID ) ); ?>" class="regular-text" /><br>
             </td>
         </tr>
 
     </table>
 <?php }
+
+
+/**
+ * SAVE AUTHOR META DATA
+ */
+add_action( 'personal_options_update', 'save_profile_fields' );
+add_action( 'edit_user_profile_update', 'save_profile_fields' );
+ 
+function save_profile_fields( $user_id ) {
+ 
+if ( !current_user_can( 'edit_user', $user_id ) )
+    return false;
+ 
+update_usermeta( $user_id, 'pic', $_POST['pic'] );
+update_usermeta( $user_id, 'Facebook', $_POST['Facebook'] );
+update_usermeta( $user_id, 'Twitter', $_POST['Twitter'] );
+}
 
 ?>

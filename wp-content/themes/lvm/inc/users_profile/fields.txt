@@ -1,0 +1,32 @@
+fields.txt
+
+contacts methods
+    email2  
+    twitter
+    facebook
+    tel1
+    tel2
+    tel2
+
+meta tags
+
+    endereco
+    nascimento
+
+info academicas
+    
+    citacao
+    lattes
+
+formação academica
+
+    #
+        grau
+        instituicao
+        curso
+        status
+        inicio
+        fim
+        titulo
+        orientador
+        coorientador

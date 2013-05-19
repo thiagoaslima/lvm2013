@@ -29,12 +29,16 @@ add_action( 'edit_user_profile', 'extra_profile' );
 
 function extra_profile( $user ) { ?>
 
+    <style type="text/css">
+        .formacao .ui-datepicker-calendar { display: none;}
+    </style>
+
     <script>
         (function (w, $) {
             $(function () {
 
                 <?php 
-                    if ( ! current_user_can('manage_options') ) 
+                    if ( !current_user_can('manage_options') ) 
                     { ?>
                 /* Hide configuration elements */
                 $('h3').first().hide().
@@ -65,11 +69,10 @@ function extra_profile( $user ) { ?>
                     yearSuffix: ''};
                 $.datepicker.setDefaults($.datepicker.regional['pt-BR']);
 
-                $( "#nascimento" ).datepicker({
+                $( "#nascimento, .inicio-curso, .fim-curso" ).datepicker({
                     changeMonth: true,
                     changeYear: true,
                 });
-
             });
         }(this, this.jQuery));
     </script>
@@ -110,30 +113,123 @@ function extra_profile( $user ) { ?>
         
         <tr>
             <th>
-                <label for="citacao"><?php _e('Citação', 'lvm-lang') ?></label>
+                <label for="citacao"><?php _e('Nome em citações bibliográficas', 'lvm-lang') ?></label>
             </th>
 
             <td>
                 <input type="text" name="citacao" id="citacao" value="<?php echo esc_attr( get_the_author_meta( 'citacao', $user->ID ) ); ?>" class="regular-text" /><br />
-                <span class="description"><?php _e('Por favor, preencha com seu citação', 'lvm-lang') ?></span>
+                <span class="description"><?php _e('Por favor, preencha como seu nome deve constar em citações e referências', 'lvm-lang') ?></span>
             </td>
         </tr>
 
+        <tr>
+            <th>
+                <label for="lattes"><?php _e('Link para o currículo lattes', 'lvm-lang') ?></label>
+            </th>
+
+            <td>
+                <input type="url" name="lattes" id="lattes" value="<?php echo esc_attr( get_the_author_meta( 'lattes', $user->ID ) ); ?>" class="regular-text" /><br />
+                <span class="description"><?php _e('Por favor, preencha como seu nome deve constar em citações e referências', 'lvm-lang') ?></span>
+            </td>
+        </tr>
         <tr>
             <th colspan="2">
                 <h4><em><?php _e('Formação Acadêmica', 'lvm-lang') ?></em></h4>
             </th>
         </tr>
 
-        <tr>
+        <tr class="formacao formacao-1">
             <th>
                 <label for="grau-1"><?php _e('Grau Acadêmico', 'lvm-lang') ?></label>
             </th>
 
             <td>
-                <select name="grau-1" id="grau-1"></select>
-                <input type="text" name="grau-1" id="grau-1" value="<?php echo esc_attr( get_the_author_meta( 'grau-1', $user->ID ) ); ?>" class="regular-text" /><br />
-                <span class="description"><?php _e('Por favor, preencha com seu Grau', 'lvm-lang') ?></span>
+                <select name="grau-1" id="grau-1">
+                    <option value=""></option>
+                    <option value="graduação">graduação</option>
+                    <option value="especialização">especialização</option>
+                    <option value="mestrado profissional">mestrado profissional</option>
+                    <option value="mestrado">mestrado</option>
+                    <option value="doutorado">graduação</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr class="formacao formacao-1">
+            <th>
+                <label for="instituicao-1"><?php _e('Instituição', 'lvm-lang') ?></label>
+            </th>
+
+            <td>
+                <input type="text" name="instituicao-1" id="instituicao-1" value="<?php echo esc_attr( get_the_author_meta( 'instituicao-1', $user->ID ) ); ?>" class="regular-text" /><br />
+            </td>
+        </tr>
+
+        <tr class="formacao formacao-1">
+            <th>
+                <label for="curso-1"><?php _e('Curso', 'lvm-lang') ?></label>
+            </th>
+
+            <td>
+                <input type="text" name="curso-1" id="curso-1" value="<?php echo esc_attr( get_the_author_meta( 'curso-1', $user->ID ) ); ?>" class="regular-text" /><br />
+            </td>
+        </tr>
+
+        <tr class="formacao formacao-1">
+            <th>
+                <label for="status-1"><?php _e('Status do curso', 'lvm-lang'); ?></label>
+            </th>
+
+            <td>
+                <input type="radio" name="status-1" id="status-1-A" /> <label for="status-1-A"><?php _e('em andamento', 'lvm-lang'); ?></label>
+                &emsp;&emsp; 
+                <input type="radio" name="status-1" id="status-1-B" /> <label for="status-1-B"><?php _e('completo', 'lvm-lang'); ?></label>
+                &emsp;&ensp; 
+                <input type="radio" name="status-1" id="status-1-C" /> <label for="status-1-C"><?php _e('incompleto', 'lvm-lang'); ?></label>
+            </td>
+        </tr>
+
+        <tr class="formacao formacao-1">
+            <th>
+                <?php _e('Período do Curso', 'lvm_lang'); ?>
+            </th>
+
+            <td>
+                <label for="inicio-1"><?php _e('Inicio do curso', 'lvm-lang') ?></label>
+                <input type="text" name="inicio-1" id="inicio-1" class="inicio-curso">
+                <br>
+                <label for="fim-1"><?php _e('Término do curso', 'lvm-lang') ?></label>
+                <input type="text" name="fim-1" id="fim-1" class="fim-curso">
+            </td>
+        </tr>
+
+        <tr class="formacao formacao-1">
+            <th>
+                <label for="titulo-1"><?php _e('Título do trabalho/dissertação/tese', 'lvm-lang'); ?></label>
+            </th>
+
+            <td>
+                <input type="text" name="titulo-1" id="titulo-1" value="<?php echo esc_attr( get_the_author_meta( 'titulo-1', $user->ID ) ); ?>" class="regular-text" /><br>
+            </td>
+        </tr>
+
+        <tr class="formacao formacao-1">
+            <th>
+                <label for="orientador-1"><?php _e('Nome do orientador', 'lvm-lang'); ?></label>
+            </th>
+
+            <td>
+                <input type="text" name="orientador-1" id="orientador-1" value="<?php echo esc_attr( get_the_author_meta( 'orientador-1', $user->ID ) ); ?>" class="regular-text" /><br>
+            </td>
+        </tr>
+
+        <tr class="formacao formacao-1">
+            <th>
+                <label for="co-orientador-1"><?php _e('Nome do co-orientador', 'lvm-lang'); ?></label>
+            </th>
+
+            <td>
+                <input type="text" name="co-orientador-1" id="co-orientador-1" value="<?php echo esc_attr( get_the_author_meta( 'co-orientador-1', $user->ID ) ); ?>" class="regular-text" /><br>
             </td>
         </tr>
 

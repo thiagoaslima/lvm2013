@@ -158,6 +158,9 @@ function admin_pages() {
         wp_register_style( 'ui-datepicker', get_template_directory_uri() . '/css/jquery.ui.datepicker.css', $deps = array(), $ver = '1.9.2', $media = 'all' );
         wp_enqueue_style( 'ui-datepicker' );
     // }
+
+        wp_register_script( 'admin-scripts', get_template_directory_uri() . '/js/admin-scripts.js', $deps = array('jquery'), $ver = '1.0.0', $in_footer = true );
+        wp_enqueue_script( 'admin-scripts' );
 }
 
 // Register HTML5 Blank Navigation

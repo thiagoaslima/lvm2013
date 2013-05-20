@@ -2,9 +2,7 @@
     (function (w, $) {
         $(function () {
 
-            <?php 
-                if ( !current_user_can('manage_options') ) 
-                { ?>
+            <?php if ( !current_user_can('manage_options') ) : ?>
             /* Hide configuration elements */
             $('h3').first().hide().next('table').hide();
 
@@ -12,7 +10,7 @@
             $('#password').clone().appendTo('.row-password').unwrap('tr#password').end().remove();
             
             // $('#your-profile').children().not('input[type="hidden"], .custom-profile').remove();
-            <?php } ?>
+            <?php endif; ?>
 
 
             /* Brazilian initialisation for the jQuery UI date picker plugin. */
@@ -40,6 +38,13 @@
             $( "#nascimento, .inicio-curso, .fim-curso" ).datepicker({
                 changeMonth: true,
                 changeYear: true,
+            });
+
+
+            $('.custom-profile').on('click', '.add-repeatable', function (evt) {
+                var repeatable = w.lvm_helpers.repeatable;
+                evt.preventDefault();
+                repeatable($(this).parents('tr').find('.repeatable'));
             });
         });
     }(this, this.jQuery));

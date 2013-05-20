@@ -13,13 +13,6 @@ function manage_contact_methods( $contactmethods ) {
   unset($contactmethods['aim']);
   unset($contactmethods['jabber']);
 
-  $contactmethods['email2'] = __('Email alternativo', 'lvm-lang');
-  $contactmethods['twitter'] = __('Twitter', 'lvm-lang');
-  $contactmethods['facebook'] = __('Facebook', 'lvm-lang');
-  $contactmethods['tel1'] = __('Telefone 1', 'lvm-lang');
-  $contactmethods['tel2'] = __('Telefone 2', 'lvm-lang');
-  $contactmethods['tel3'] = __('Telefone 3', 'lvm-lang');
-
   return $contactmethods;
 }
 add_filter('user_contactmethods', 'manage_contact_methods', 10, 1);
@@ -40,10 +33,6 @@ function extra_profile( $user ) { ?>
         include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'form.php';
         
     ?>
-
-    <style type="text/css">
-        .formacao .ui-datepicker-calendar { display: none;}
-    </style>
 
     <?php 
         include "adjustments.php";

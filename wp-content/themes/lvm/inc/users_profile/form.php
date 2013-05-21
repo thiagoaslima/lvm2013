@@ -108,14 +108,18 @@
             </th>
 
             <td>
-                <textarea rows="3" cols="30" name="endereco_residencial" id="endereco_residencial"><?php echo isset( $user_meta['endereco_residencial'] ) ? $user_meta['endereco_residencial'][0] : ''; ?></textarea>
+                <?php
+                $endereco_residencial = isset( $user_meta['endereco_residencial'] ) ? 
+                                            json_decode($user_meta['endereco_residencial']) : array('address' => '', 'isPublic' => '');
+                ?>
+
+                <textarea rows="3" cols="30" name="endereco_residencial" id="endereco_residencial"><?php echo $endereco_residencial['address']; ?></textarea>
                 <br>
                 <span class="description"><?php _e('Defina o grau de visibilidade: ', 'lvm-lang'); ?></span>
-                <?php $endereco_residencial = isset( $user_meta['endereco_residencial'] ) ? $user_meta['endereco_residencial'][0] : 'admin'; ?> 
                 <select name="endereco_residencial_isPublic" id="endereco_residencial_isPublic">
-                    <option <?php selected( $endereco_residencial, 'admin' ); ?> value="admin">apenas professores e administradores do site</option>
-                    <option <?php selected( $endereco_residencial, 'logged' ); ?> value="logged">apenas usuários logados</option>
-                    <option <?php selected( $endereco_residencial, 'all' ); ?> value="all">todos os visitantes do site</option>
+                    <option <?php selected( $endereco_residencial['isPublic'], 'admin' ); ?> value="admin">apenas professores e administradores do site</option>
+                    <option <?php selected( $endereco_residencial['isPublic'], 'logged' ); ?> value="logged">apenas usuários logados</option>
+                    <option <?php selected( $endereco_residencial['isPublic'], 'all' ); ?> value="all">todos os visitantes do site</option>
                 </select>
             </td>
         </tr>
@@ -155,7 +159,7 @@
                 for ($i = 0; $i < $len; $i++) {
                     $tel = $telefones[$i];
                 ?>
-                    <div class="group" data-number="<?php echo $i; ?>">
+                    <div class="group" data-number="<?php echo $i; ?>" data-meta="telefone" data-keys="type, number, isPublic">
                         <select name="telefone-type-<?php echo $i; ?>" id="telefone-type-<?php echo $i; ?>" data-default="option:residencial">
                             <option <?php selected( $tel['type'], 'residencial' ); ?> value="residencial">residencial</option>
                             <option <?php selected( $tel['type'], 'comercial' ); ?> value="comercial">comercial</option>

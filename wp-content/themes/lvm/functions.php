@@ -22,6 +22,7 @@ if ( is_admin() )
     if ( file_exists( currPath() . path('/inc/users_profile/init.php', '/') ) )
     {
         include 'inc/users_profile/init.php';
+        include 'inc/users_profile/save.php';
     } 
     
 }

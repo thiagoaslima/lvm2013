@@ -16,6 +16,12 @@ function path($path, $sep) {
     return implode(DIRECTORY_SEPARATOR, $parts);
 } 
 
+// convert characters on JSON encoding
+// http://www.avoid.org/?p=67
+function json_encode_unicode($struct) {
+   return preg_replace("/\\\\u([a-f0-9]{4})/e", "iconv('UCS-4LE','UTF-8',pack('V', hexdec('U$1')))", json_encode($struct));
+}
+
 // include user meta boxes
 if ( is_admin() )
 {
@@ -24,7 +30,6 @@ if ( is_admin() )
         include 'inc/users_profile/init.php';
         include 'inc/users_profile/save.php';
     } 
-    
 }
 
 /*------------------------------------*\

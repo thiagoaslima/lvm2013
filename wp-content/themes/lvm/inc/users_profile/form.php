@@ -51,6 +51,7 @@
     
 
     <!-- DADOS PESSOAIS -->
+    <br>
     <h3 class="lvm-dados-pessoais"><?php _e('Dados Pessoais', 'lvm-lang'); ?></h3>
 
     <table class="form-table lvm-dados-pessoais">
@@ -81,7 +82,7 @@
 
             <td>
                 <input type="text" name="nascimento" id="nascimento" value="<?php echo isset($user_meta['nascimento']) ? $user_meta['nascimento'][0] : ''; ?>" class="regular-text" /><br />
-                <span class="description"><?php _e('Por favor, preencha com seu nascimento', 'lvm-lang') ?></span>
+                <span class="description"><?php _e('Por favor, preencha do seguinte modo: dd/mm/yyyy. Ex.: 1/05/1990', 'lvm-lang') ?></span>
             </td>
         </tr>
 
@@ -99,6 +100,7 @@
     <!-- /DADOS PESSOAIS -->
 
     <!-- CONTATO -->
+    <br>
     <h3 class="lvm-contatos"><?php _e('Informações de contato', 'lvm-lang'); ?></h3>
 
     <table class="form-table lvm-dados-pessoais">
@@ -110,74 +112,83 @@
             <td>
                 <?php
                 $endereco_residencial = isset( $user_meta['endereco_residencial'] ) ? 
-                                            json_decode($user_meta['endereco_residencial']) : array('address' => '', 'isPublic' => '');
+                                            json_decode($user_meta['endereco_residencial'][0]) : (object)array('address' => '', 'isPublic' => '');
                 ?>
 
-                <textarea rows="3" cols="30" name="endereco_residencial" id="endereco_residencial"><?php echo $endereco_residencial['address']; ?></textarea>
+                <textarea rows="3" cols="30" name="endereco_residencial_address" id="endereco_residencial_address"><?php echo $endereco_residencial->address; ?></textarea>
                 <br>
                 <span class="description"><?php _e('Defina o grau de visibilidade: ', 'lvm-lang'); ?></span>
                 <select name="endereco_residencial_isPublic" id="endereco_residencial_isPublic">
-                    <option <?php selected( $endereco_residencial['isPublic'], 'admin' ); ?> value="admin">apenas professores e administradores do site</option>
-                    <option <?php selected( $endereco_residencial['isPublic'], 'logged' ); ?> value="logged">apenas usuários logados</option>
-                    <option <?php selected( $endereco_residencial['isPublic'], 'all' ); ?> value="all">todos os visitantes do site</option>
+                    <option <?php selected( $endereco_residencial->isPublic, 'admin' ); ?> value="admin">apenas professores e administradores do site</option>
+                    <option <?php selected( $endereco_residencial->isPublic, 'logged' ); ?> value="logged">apenas usuários logados</option>
+                    <option <?php selected( $endereco_residencial->isPublic, 'all' ); ?> value="all">todos os visitantes do site</option>
                 </select>
             </td>
         </tr>
 
         <tr>
             <th>
-                <label for="endereco_profissional"><?php _e('Endereço profissional', 'lvm-lang'); ?></label>
+                <label for="endereco_comercial"><?php _e('Endereço comercial', 'lvm-lang'); ?></label>
             </th>
 
             <td>
-                <textarea rows="3" cols="30" name="endereco_profissional" id="endereco_profissional"><?php echo isset( $user_meta['endereco_profissional'] ) ? $user_meta['endereco_residencial'][0] : ''; ?></textarea>
+                <?php
+                $endereco_comercial = isset( $user_meta['endereco_comercial'] ) ? 
+                                            json_decode($user_meta['endereco_comercial'][0]) : (object)array('address' => '', 'isPublic' => '');
+                ?>
+
+                <textarea rows="3" cols="30" name="endereco_comercial_address" id="endereco_comercial_address"><?php echo $endereco_comercial->address; ?></textarea>
                 <br>
                 <span class="description"><?php _e('Defina o grau de visibilidade: ', 'lvm-lang'); ?></span>
-                <?php $endereco_profissional = isset( $user_meta['endereco_profissional'] ) ? $user_meta['endereco_profissional'][0] : 'admin'; ?> 
-                <select name="endereco_profissional_isPublic" id="endereco_profissional_isPublic">
-                    <option <?php selected( $endereco_profissional, 'admin' ); ?> value="admin">apenas professores e administradores do site</option>
-                    <option <?php selected( $endereco_profissional, 'logged' ); ?> value="logged">apenas usuários logados</option>
-                    <option <?php selected( $endereco_profissional, 'all' ); ?> value="all">todos os visitantes do site</option>
+                <select name="endereco_comercial_isPublic" id="endereco_comercial_isPublic">
+                    <option <?php selected( $endereco_comercial->isPublic, 'admin' ); ?> value="admin">apenas professores e administradores do site</option>
+                    <option <?php selected( $endereco_comercial->isPublic, 'logged' ); ?> value="logged">apenas usuários logados</option>
+                    <option <?php selected( $endereco_comercial->isPublic, 'all' ); ?> value="all">todos os visitantes do site</option>
                 </select>
             </td>
         </tr>
 
         <tr data-tags='input,textarea,select'>
             <th>
-                <label for="telefone"><?php _e('Telefone', 'lvm-lang'); ?></label>
-                <br><br>
-                <button class="add-repeatable button">Adicionar telefone</button>
+                <label for="telefone"><?php _e('Telefones', 'lvm-lang'); ?></label><span>&emsp;</span><button class="add-repeatable button">Adicionar telefone</button>
             </th>
 
             <td>
-                <div class="repeatable">
                 <?php 
                 $telefones = isset($user_meta['telefones']) ?
-                                json_decode($user_meta['telefones']) : array( array('type' => 'residencial', 'number' => '', 'isPublic' => 'admin') );
+                                json_decode($user_meta['telefones'][0]) : (object)array( array('type' => 'residencial', 'number' => '', 'isPublic' => 'admin') );
                 $len = count($telefones);
 
                 for ($i = 0; $i < $len; $i++) {
                     $tel = $telefones[$i];
                 ?>
+                <div class="repeatable">
                     <div class="group" data-number="<?php echo $i; ?>" data-meta="telefone" data-keys="type, number, isPublic">
                         <select name="telefone-type-<?php echo $i; ?>" id="telefone-type-<?php echo $i; ?>" data-default="option:residencial">
-                            <option <?php selected( $tel['type'], 'residencial' ); ?> value="residencial">residencial</option>
-                            <option <?php selected( $tel['type'], 'comercial' ); ?> value="comercial">comercial</option>
-                            <option <?php selected( $tel['type'], 'celular' ); ?> value="celular">celular</option>
-                            <option <?php selected( $tel['type'], 'fax' ); ?> value="fax">fax</option>
+                            <option <?php selected( $tel->type, 'residencial' ); ?> value="residencial">residencial</option>
+                            <option <?php selected( $tel->type, 'comercial' ); ?> value="comercial">comercial</option>
+                            <option <?php selected( $tel->type, 'celular' ); ?> value="celular">celular</option>
+                            <option <?php selected( $tel->type, 'fax' ); ?> value="fax">fax</option>
+                            <?php 
+                                $options = array('residencial', 'comercial', 'celular', 'fax');
+                                if ( is_string($tel->type) && !in_array($tel->type, $options) )
+                                { ?>
+                            <option value="<?php echo $tel->type; ?>" selected="selected"><?php echo $tel->type; ?></option>
+                                <?php } ?>
+                            <option value="outros">outros</option>
                         </select>
                         <span>&emsp;</span>
-                        <input type="text" name="telefone-number-<?php echo $i; ?>" id="telefone-number-<?php echo $i; ?>" value="<?php echo $tel['number']; ?>" data-default="value:null" placeholder="+55 21 2345 6789" class="regular-text" /><br />
+                        <input type="text" name="telefone-number-<?php echo $i; ?>" id="telefone-number-<?php echo $i; ?>" value="<?php echo $tel->number; ?>" data-default="value:null" placeholder="+55 21 2345 6789" class="regular-text" /><br />
 
                         <label class="description" for="telefone-isPublic-<?php echo $i; ?>"><?php _e('Informação visível para: ', 'lvm-lang'); ?></label>
                         <select name="telefone-isPublic-<?php echo $i; ?>" id="telefone-isPublic-<?php echo $i; ?>" data-default="option:admin" >
-                            <option <?php selected( $tel['isPublic'], 'admin' ); ?> value="admin">apenas professores e administradores do site</option>
-                            <option <?php selected( $tel['isPublic'], 'logged' ); ?> value="logged">apenas usuários logados</option>
-                            <option <?php selected( $tel['isPublic'], 'all' ); ?> value="all">todos os visitantes do site</option>
+                            <option <?php selected( $tel->isPublic, 'admin' ); ?> value="admin">apenas professores e administradores do site</option>
+                            <option <?php selected( $tel->isPublic, 'logged' ); ?> value="logged">apenas usuários logados</option>
+                            <option <?php selected( $tel->isPublic, 'all' ); ?> value="all">todos os visitantes do site</option>
                         </select>
                     </div><br>
-                <?php } ?>
                 </div>
+                <?php } ?>
                 
             </td>
         </tr>

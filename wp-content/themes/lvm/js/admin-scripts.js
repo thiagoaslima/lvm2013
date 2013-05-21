@@ -45,8 +45,14 @@
                 groups.find('[id^=' + meta + '-' + $.trim(keys[idx]) + '-]').each(function (i) {
                     $(this).attr('id', meta + '-' + $.trim(keys[idx]) + '-' + i);
                 });
+                groups.find('[for^=' + meta + '-' + $.trim(keys[idx]) + '-]').each(function (i) {
+                    $(this).attr('for', meta + '-' + $.trim(keys[idx]) + '-' + i);
+                });
             });
 
+            groups.each(function (index) {
+                $(this).attr('data-number', index);
+            });
         };
 
     /* expose functions and variables */

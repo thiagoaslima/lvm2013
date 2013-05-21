@@ -5,10 +5,8 @@
 // http://www.netmagazine.com/tutorials/user-friendly-custom-fields-meta-boxes-wordpress
 // http://wp.tutsplus.com/tutorials/plugins/how-to-create-custom-wordpress-writemeta-boxes/
 // http://wp.tutsplus.com/tutorials/three-practical-uses-for-custom-meta-boxes/
-// 
 
 function manage_contact_methods( $contactmethods ) {
-
   unset($contactmethods['yim']);
   unset($contactmethods['aim']);
   unset($contactmethods['jabber']);
@@ -31,40 +29,12 @@ function extra_profile( $user ) { ?>
         print_r($user_meta);
 
         include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'form.php';
-        
     ?>
 
     <?php 
         include "adjustments.php";
     ?>
-    <!-- DADOS PESSOAIS -->
-    <h3><?php _e('Dados Pessoais', 'lvm-lang') ?></h3>
-
-    <table class="form-table">
-
-        <tr>
-            <th>
-                <label for="endereco"><?php _e('Endereço', 'lvm-lang') ?></label>
-                <span class="description"><?php _e('Preferencialmente, um endereço para correspondência', 'lvm-lang') ?></span>
-            </th>
-            <td>
-                <textarea name="endereco" id="endereco" class="regular-text" cols="30" rows="3"><?php echo esc_attr( get_the_author_meta( 'endereco', $user->ID ) ); ?></textarea>
-                <br />
-            </td>
-        </tr>
-
-        <tr>
-            <th>
-                <label for="nascimento"><?php _e('Data de Nascimento', 'lvm-lang') ?></label>
-            </th>
-
-            <td>
-                <input type="text" name="nascimento" id="nascimento" value="<?php echo esc_attr( get_the_author_meta( 'nascimento', $user->ID ) ); ?>" class="regular-text" /><br />
-                <span class="description"><?php _e('Por favor, preencha com seu nascimento', 'lvm-lang') ?></span>
-            </td>
-        </tr>
-
-    </table>
+   
 
     <!-- DADOS ACADÊMICOS -->
     <h3>Informações Acadêmicas</h3>
@@ -195,22 +165,5 @@ function extra_profile( $user ) { ?>
 
     </table>
 <?php }
-
-
-/**
- * SAVE AUTHOR META DATA
- */
-add_action( 'personal_options_update', 'save_profile_fields' );
-add_action( 'edit_user_profile_update', 'save_profile_fields' );
- 
-function save_profile_fields( $user_id ) {
- 
-if ( !current_user_can( 'edit_user', $user_id ) )
-    return false;
- 
-update_usermeta( $user_id, 'pic', $_POST['pic'] );
-update_usermeta( $user_id, 'Facebook', $_POST['Facebook'] );
-update_usermeta( $user_id, 'Twitter', $_POST['Twitter'] );
-}
 
 ?>

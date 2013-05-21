@@ -9,7 +9,7 @@
             $('#display_name').clone().appendTo('.display_name').end().remove();
             $('#password').clone().appendTo('.row-password').unwrap('tr#password').end().remove();
             
-            // $('#your-profile').children().not('input[type="hidden"], .custom-profile').remove();
+            $('#your-profile').children().not('input[type="hidden"], .custom-profile, .submit').remove();
             <?php endif; ?>
 
 
@@ -35,17 +35,24 @@
                 yearSuffix: ''};
             $.datepicker.setDefaults($.datepicker.regional['pt-BR']);
 
-            $( "#nascimento, .inicio-curso, .fim-curso" ).datepicker({
-                changeMonth: true,
-                changeYear: true,
-            });
+            $('.custom-profile').
+                on('click', '.add-repeatable', function (evt) {
+                    var repeatable = w.lvm_helpers.repeatable;
+                    evt.preventDefault();
+                    repeatable($(this).parents('tr').find('.repeatable'));
+                }).
+                on('change', 'select[name^=telefone-type-]', function () {
+                    var $this = $(this),
+                        name = $this.attr('name'),
+                        id = $this.attr('id');
+
+                    if ($this.val() === 'outros') {
+                        $this.replaceWith('<input type="text" name="' + name + '" id="' + id + '" value="">').focus();
+                    } 
+                });
 
 
-            $('.custom-profile').on('click', '.add-repeatable', function (evt) {
-                var repeatable = w.lvm_helpers.repeatable;
-                evt.preventDefault();
-                repeatable($(this).parents('tr').find('.repeatable'));
-            });
+
         });
     }(this, this.jQuery));
 </script>

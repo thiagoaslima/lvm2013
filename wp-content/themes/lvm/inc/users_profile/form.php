@@ -4,14 +4,14 @@
     $msg_isPublic_all = __('todos os visitantes do site', 'lvm-lang');
 
     $tel_types = array(
-                    residencial => __('residencial', 'lvm-lang'),
-                    comercial => __('comercial', 'lvm-lang'),
-                    celular => __('celular', 'lvm-lang'),
-                    fax => __('fax', 'lvm-lang'),
-                    outros => __('outros', 'lvm-lang')
+                    'residencial' => __('residencial', 'lvm-lang'),
+                    'comercial' => __('comercial', 'lvm-lang'),
+                    'celular' => __('celular', 'lvm-lang'),
+                    'fax' => __('fax', 'lvm-lang'),
+                    'outros' => __('outros', 'lvm-lang')
                 )
 ?>
-<script id="telefone:select" type="template">
+<script id="telefone:select" type="text/template">
     <select name="telefone-type-<?php echo $i; ?>" id="telefone-type-<?php echo $i; ?>" data-default="option:residencial">
         <option selected="selected" value="residencial"><?php echo $tel_types['residencial']; ?></option>
         <option value="comercial"><?php echo $tel_types['comercial']; ?></option>
@@ -20,6 +20,8 @@
         <option value="outros"><?php echo $tel_types['outros']; ?></option>
     </select>
 </script>
+
+
 
 <div class="custom-profile">
 
@@ -129,44 +131,22 @@
     <table class="form-table lvm-dados-pessoais">
         <tr>
             <th>
-                <label for="endereco_residencial"><?php _e('Endereço residencial', 'lvm-lang'); ?></label>
+                <label for="endereco_address"><?php _e( 'Endereço para correspondência', 'lvm-lang' ); ?></label>
             </th>
 
             <td>
                 <?php
-                $endereco_residencial = isset( $user_meta['endereco_residencial'] ) ? 
-                                            json_decode($user_meta['endereco_residencial'][0]) : (object)array('address' => '', 'isPublic' => '');
+                $endereco = isset( $user_meta['endereco'] ) ? 
+                                        json_decode($user_meta['endereco'][0]) : (object)array('address' => '', 'isPublic' => '');
                 ?>
 
-                <textarea rows="3" cols="30" name="endereco_residencial_address" id="endereco_residencial_address"><?php echo $endereco_residencial->address; ?></textarea>
+                <textarea rows="3" cols="30" name="endereco_address" id="endereco_address"><?php echo $endereco->address; ?></textarea>
                 <br>
-                <span class="description"><?php _e('Defina o grau de visibilidade: ', 'lvm-lang'); ?></span>
-                <select name="endereco_residencial_isPublic" id="endereco_residencial_isPublic">
-                    <option <?php selected( $endereco_residencial->isPublic, 'admin' ); ?> value="admin"><?php echo $msg_isPublic_admin; ?></option>
-                    <option <?php selected( $endereco_residencial->isPublic, 'logged' ); ?> value="logged"><?php echo $msg_isPublic_logged; ?></option>
-                    <option <?php selected( $endereco_residencial->isPublic, 'all' ); ?> value="all"><?php echo $msg_isPublic_all; ?></option>
-                </select>
-            </td>
-        </tr>
-
-        <tr>
-            <th>
-                <label for="endereco_comercial"><?php _e('Endereço comercial', 'lvm-lang'); ?></label>
-            </th>
-
-            <td>
-                <?php
-                $endereco_comercial = isset( $user_meta['endereco_comercial'] ) ? 
-                                            json_decode($user_meta['endereco_comercial'][0]) : (object)array('address' => '', 'isPublic' => '');
-                ?>
-
-                <textarea rows="3" cols="30" name="endereco_comercial_address" id="endereco_comercial_address"><?php echo $endereco_comercial->address; ?></textarea>
-                <br>
-                <span class="description"><?php _e('Defina o grau de visibilidade: ', 'lvm-lang'); ?></span>
-                <select name="endereco_comercial_isPublic" id="endereco_comercial_isPublic">
-                    <option <?php selected( $endereco_comercial->isPublic, 'admin' ); ?> value="admin"><?php echo $msg_isPublic_admin; ?></option>
-                    <option <?php selected( $endereco_comercial->isPublic, 'logged' ); ?> value="logged"><?php echo $msg_isPublic_logged; ?></option>
-                    <option <?php selected( $endereco_comercial->isPublic, 'all' ); ?> value="all"><?php echo $msg_isPublic_all; ?></option>
+                <span class="description"><?php _e( 'Defina o grau de visibilidade: ', 'lvm-lang' ); ?></span>
+                <select name="endereco_isPublic" id="endereco_isPublic">
+                    <option <?php selected( $endereco->isPublic, 'admin' ); ?> value="admin"><?php echo $msg_isPublic_admin; ?></option>
+                    <option <?php selected( $endereco->isPublic, 'logged' ); ?> value="logged"><?php echo $msg_isPublic_logged; ?></option>
+                    <option <?php selected( $endereco->isPublic, 'all' ); ?> value="all"><?php echo $msg_isPublic_all; ?></option>
                 </select>
             </td>
         </tr>
@@ -212,9 +192,116 @@
                     </div><br>
                 </div>
                 <?php } ?>
-                
             </td>
         </tr>
 
+        <tr data-tags='input,textarea,select'>
+            <th>
+                <label for="emails"><?php _e('Email', 'lvm-lang'); ?></label><span>&emsp;</span><button class="add-repeatable button">Adicionar email</button>
+            </th>
+
+            <td>
+                <?php 
+                $emails = isset($user_meta['emails']) ?
+                                json_decode($user_meta['emails'][0]) : array( (object)array('value' => '', 'isPublic' => 'admin') );
+                $len = count($emails);
+
+                for ($i = 0; $i < $len; $i++) {
+                    $email = $emails[$i];
+                ?>
+                <div class="repeatable">
+                    <div class="group" data-number="<?php echo $i; ?>" data-meta="email" data-keys="value, isPublic">
+                        <input type="email" name="email-value-<?php echo $i; ?>" id="email-value-<?php echo $i; ?>" value="<?php echo $email->value; ?>" data-default="value:null" placeholder="fulano@ufrj.br" class="regular-text" />
+                        <br>
+                        <label class="description" for="email-isPublic-<?php echo $i; ?>"><?php _e('Informação visível para: ', 'lvm-lang'); ?></label>
+                        <select name="email-isPublic-<?php echo $i; ?>" id="email-isPublic-<?php echo $i; ?>" data-default="option:admin" >
+                            <option <?php selected( $email->isPublic, 'admin' ); ?> value="admin"><?php echo $msg_isPublic_admin; ?></option>
+                            <option <?php selected( $email->isPublic, 'logged' ); ?> value="logged"><?php echo $msg_isPublic_logged; ?></option>
+                            <option <?php selected( $email->isPublic, 'all' ); ?> value="all"><?php echo $msg_isPublic_all; ?></option>
+                        </select>
+                    </div><br>
+                </div>
+                <?php } ?>
+            </td>
+        </tr>
+
+    </table>
+    <!-- /CONTATO -->
+
+
+    <!-- FORMAÇÃO ACADÊMICA / TITULAÇÃO -->
+    <br>
+    <h3 class="lvm-formacao"><?php _e('Formação acadêmica/Titulação', 'lvm-lang'); ?></h3>
+
+    <table class="form-table lvm-dados-pessoais">
+        <tr>
+            <th>
+                <button class="add-repeatable button">Adicionar formação</button>
+            </th>
+
+              <td>
+                <?php 
+                $formacoes = isset($user_meta['formacao']) ?
+                                json_decode($user_meta['formacao'][0]) : 
+                                array( (object)array(   'grau' => 'mestrado', 
+                                                        'instituicao' => '', 
+                                                        'curso' => '',
+                                                        'status' => '',
+                                                        'inicio' => '',
+                                                        'termino' => '',
+                                                        'titulo' => '',
+                                                        'orientador' => '',
+                                                        'coorientador' => '',
+                                                        'isPublic' => 'admin'
+                                                    ) 
+                                );
+                $len = count($formacoes);
+
+                for ($i = 0; $i < $len; $i++) {
+                    $formacao = $formacoes[$i];
+                ?>
+                <div class="repeatable">
+                    <div class="group" data-number="<?php echo $i; ?>" data-meta="formacao" data-keys="grau, instituicao, curso, status, inicio, termino, titulo, orientador, coorientador, isPublic">
+
+                        <label for="formacao-grau-<?php echo $i; ?>"><?php _e('Grau acadêmico', 'lvm-lang'); ?></label>
+                        <select name="formacao-grau-<?php echo $i; ?>" id="formacao-grau-<?php echo $i; ?>">
+                            <option <?php selected( $email->grau, 'livre docência' ); ?> value="livre docência">Livre docência</option>
+                            <option <?php selected( $email->grau, 'pós doutorado' ); ?> value="pós doutorado">Pós doutorado</option>
+                            <option <?php selected( $email->grau, 'doutorado' ); ?> value="doutorado">Doutorado</option>
+                            <option <?php selected( $email->grau, 'mestrado' ); ?> value="mestrado">Mestrado</option>
+                            <option <?php selected( $email->grau, 'mestrado profissionalizante' ); ?> value="mestrado profissionalizante">Mestrado Profissionalizante</option>
+                            <option <?php selected( $email->grau, 'especialização' ); ?> value="especialização">Especialização</option>
+                            <option <?php selected( $email->grau, 'graduação' ); ?> value="graduação">Graduação</option>
+                            <option <?php selected( $email->grau, 'ensino técnico' ); ?> value="ensino técnico">Ensino técnico</option>
+                        </select>
+                        <input type="text" name="formacao-grau-<?php echo $i; ?>" id="formacao-grau-<?php echo $i; ?>" value="<?php echo $formacao->grau; ?>" data-default="value:null" placeholder="fulano@ufrj.br" class="regular-text" />
+                        <br>
+
+                        <label for="formacao-instituicao-<?php echo $i; ?>"><?php _e('Instituição', 'lvm-lang'); ?></label>
+                        <input type="text" name="formacao-instituicao-<?php echo $i; ?>" id="formacao-instituicao-<?php echo $i; ?>" value="<?php echo $formacao->instituicao; ?>" data-default="value:null" placeholder="fulano@ufrj.br" class="regular-text" />
+                        <br>
+
+                        <label for="formacao-curso-<?php echo $i; ?>"><?php _e('Curso', 'lvm-lang'); ?></label>
+                        <input type="text" name="formacao-curso-<?php echo $i; ?>" id="formacao-curso-<?php echo $i; ?>" value="<?php echo $formacao->curso; ?>" data-default="value:null" placeholder="fulano@ufrj.br" class="regular-text" />
+                        <br>
+
+                        <label for="formacao-status-<?php echo $i; ?>"><?php _e('Status do curso', 'lvm-lang'); ?></label>
+                        <input type="text" name="formacao-status-<?php echo $i; ?>" id="formacao-status-<?php echo $i; ?>" value="<?php echo $formacao->status; ?>" data-default="value:null" placeholder="fulano@ufrj.br" class="regular-text" />
+                        <br>
+
+                        <input type="text" name="formacao-curso-<?php echo $i; ?>" id="formacao-curso-<?php echo $i; ?>" value="<?php echo $formacao->curso; ?>" data-default="value:null" placeholder="fulano@ufrj.br" class="regular-text" />
+                        <br>
+
+                        <label class="description" for="formacao-isPublic-<?php echo $i; ?>"><?php _e('Informação visível para: ', 'lvm-lang'); ?></label>
+                        <select name="formacao-isPublic-<?php echo $i; ?>" id="formacao-isPublic-<?php echo $i; ?>" data-default="option:admin" >
+                            <option <?php selected( $formacao->isPublic, 'admin' ); ?> value="admin"><?php echo $msg_isPublic_admin; ?></option>
+                            <option <?php selected( $formacao->isPublic, 'logged' ); ?> value="logged"><?php echo $msg_isPublic_logged; ?></option>
+                            <option <?php selected( $formacao->isPublic, 'all' ); ?> value="all"><?php echo $msg_isPublic_all; ?></option>
+                        </select>
+                    </div><br>
+                </div>
+                <?php } ?>
+            </td>
+        </tr>
     </table>
 </div>

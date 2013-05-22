@@ -56,11 +56,7 @@
                         var $this = $(this),
                             name = $this.attr('name'),
                             id = $this.attr('id'),
-                            select = '<select name="' + name + '" id="' + id + '" data-default="option:residencial">' +
-                                '<option selected="selected" value="residencial">residencial</option>' + 
-                                '<option value="comercial">comercial</option>' +
-                                '<option value="celular">celular</option><option value="fax">fax</option>' +
-                                '<option value="outros">outros</option></select>';
+                            select = $('#telefone:select').html();
 
                         if ($.trim($this.val()) === '') {
                             $this.replaceWith(select);

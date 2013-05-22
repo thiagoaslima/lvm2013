@@ -1,3 +1,26 @@
+<?php
+    $msg_isPublic_admin = __('apenas professores e administradores do site', 'lvm-lang');
+    $msg_isPublic_logged = __('apenas usuários logados', 'lvm-lang');
+    $msg_isPublic_all = __('todos os visitantes do site', 'lvm-lang');
+
+    $tel_types = array(
+                    residencial => __('residencial', 'lvm-lang'),
+                    comercial => __('comercial', 'lvm-lang'),
+                    celular => __('celular', 'lvm-lang'),
+                    fax => __('fax', 'lvm-lang'),
+                    outros => __('outros', 'lvm-lang')
+                )
+?>
+<script id="telefone:select" type="template">
+    <select name="telefone-type-<?php echo $i; ?>" id="telefone-type-<?php echo $i; ?>" data-default="option:residencial">
+        <option selected="selected" value="residencial"><?php echo $tel_types['residencial']; ?></option>
+        <option value="comercial"><?php echo $tel_types['comercial']; ?></option>
+        <option value="celular"><?php echo $tel_types['celular']; ?></option>
+        <option value="fax"><?php echo $tel_types['fax']; ?></option>
+        <option value="outros"><?php echo $tel_types['outros']; ?></option>
+    </select>
+</script>
+
 <div class="custom-profile">
 
     <h3 class="lvm-wp-data"><?php _e('Dados do Wordpress', 'lvm-lang'); ?></h3>
@@ -119,9 +142,9 @@
                 <br>
                 <span class="description"><?php _e('Defina o grau de visibilidade: ', 'lvm-lang'); ?></span>
                 <select name="endereco_residencial_isPublic" id="endereco_residencial_isPublic">
-                    <option <?php selected( $endereco_residencial->isPublic, 'admin' ); ?> value="admin">apenas professores e administradores do site</option>
-                    <option <?php selected( $endereco_residencial->isPublic, 'logged' ); ?> value="logged">apenas usuários logados</option>
-                    <option <?php selected( $endereco_residencial->isPublic, 'all' ); ?> value="all">todos os visitantes do site</option>
+                    <option <?php selected( $endereco_residencial->isPublic, 'admin' ); ?> value="admin"><?php echo $msg_isPublic_admin; ?></option>
+                    <option <?php selected( $endereco_residencial->isPublic, 'logged' ); ?> value="logged"><?php echo $msg_isPublic_logged; ?></option>
+                    <option <?php selected( $endereco_residencial->isPublic, 'all' ); ?> value="all"><?php echo $msg_isPublic_all; ?></option>
                 </select>
             </td>
         </tr>
@@ -141,9 +164,9 @@
                 <br>
                 <span class="description"><?php _e('Defina o grau de visibilidade: ', 'lvm-lang'); ?></span>
                 <select name="endereco_comercial_isPublic" id="endereco_comercial_isPublic">
-                    <option <?php selected( $endereco_comercial->isPublic, 'admin' ); ?> value="admin">apenas professores e administradores do site</option>
-                    <option <?php selected( $endereco_comercial->isPublic, 'logged' ); ?> value="logged">apenas usuários logados</option>
-                    <option <?php selected( $endereco_comercial->isPublic, 'all' ); ?> value="all">todos os visitantes do site</option>
+                    <option <?php selected( $endereco_comercial->isPublic, 'admin' ); ?> value="admin"><?php echo $msg_isPublic_admin; ?></option>
+                    <option <?php selected( $endereco_comercial->isPublic, 'logged' ); ?> value="logged"><?php echo $msg_isPublic_logged; ?></option>
+                    <option <?php selected( $endereco_comercial->isPublic, 'all' ); ?> value="all"><?php echo $msg_isPublic_all; ?></option>
                 </select>
             </td>
         </tr>
@@ -165,26 +188,26 @@
                 <div class="repeatable">
                     <div class="group" data-number="<?php echo $i; ?>" data-meta="telefone" data-keys="type, number, isPublic">
                         <select name="telefone-type-<?php echo $i; ?>" id="telefone-type-<?php echo $i; ?>" data-default="option:residencial">
-                            <option <?php selected( $tel->type, 'residencial' ); ?> value="residencial">residencial</option>
-                            <option <?php selected( $tel->type, 'comercial' ); ?> value="comercial">comercial</option>
-                            <option <?php selected( $tel->type, 'celular' ); ?> value="celular">celular</option>
-                            <option <?php selected( $tel->type, 'fax' ); ?> value="fax">fax</option>
+                            <option <?php selected( $tel->type, 'residencial' ); ?> value="residencial"><?php echo $tel_types['residencial']; ?></option>
+                            <option <?php selected( $tel->type, 'comercial' ); ?> value="comercial"><?php echo $tel_types['comercial']; ?></option>
+                            <option <?php selected( $tel->type, 'celular' ); ?> value="celular"><?php echo $tel_types['celular']; ?></option>
+                            <option <?php selected( $tel->type, 'fax' ); ?> value="fax"><?php echo $tel_types['fax']; ?></option>
                             <?php 
                                 $options = array('residencial', 'comercial', 'celular', 'fax');
                                 if ( is_string($tel->type) && !in_array($tel->type, $options) )
                                 { ?>
                             <option value="<?php echo $tel->type; ?>" selected="selected"><?php echo $tel->type; ?></option>
                                 <?php } ?>
-                            <option value="outros">outros</option>
+                            <option value="outros"><?php echo $tel_types['outros']; ?></option>
                         </select>
                         <span>&emsp;</span>
                         <input type="text" name="telefone-number-<?php echo $i; ?>" id="telefone-number-<?php echo $i; ?>" value="<?php echo $tel->number; ?>" data-default="value:null" placeholder="+55 21 2345 6789" class="regular-text" /><br />
 
                         <label class="description" for="telefone-isPublic-<?php echo $i; ?>"><?php _e('Informação visível para: ', 'lvm-lang'); ?></label>
                         <select name="telefone-isPublic-<?php echo $i; ?>" id="telefone-isPublic-<?php echo $i; ?>" data-default="option:admin" >
-                            <option <?php selected( $tel->isPublic, 'admin' ); ?> value="admin">apenas professores e administradores do site</option>
-                            <option <?php selected( $tel->isPublic, 'logged' ); ?> value="logged">apenas usuários logados</option>
-                            <option <?php selected( $tel->isPublic, 'all' ); ?> value="all">todos os visitantes do site</option>
+                            <option <?php selected( $tel->isPublic, 'admin' ); ?> value="admin"><?php echo $msg_isPublic_admin; ?></option>
+                            <option <?php selected( $tel->isPublic, 'logged' ); ?> value="logged"><?php echo $msg_isPublic_logged; ?></option>
+                            <option <?php selected( $tel->isPublic, 'all' ); ?> value="all"><?php echo $msg_isPublic_all; ?></option>
                         </select>
                     </div><br>
                 </div>

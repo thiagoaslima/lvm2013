@@ -47,12 +47,26 @@
                         id = $this.attr('id');
 
                     if ($this.val() === 'outros') {
-                        $this.replaceWith('<input type="text" name="' + name + '" id="' + id + '" value="">').focus();
-                    } 
+                        $this.replaceWith('<input type="text" name="' + name + '" id="' + id + '" value="">');
+                        $('#' + id).focus();
+                    }
+                }).
+                on('blur', 'input[name^=telefone-type-]', function () {
+                    $(this).on('blur', function () {
+                        var $this = $(this),
+                            name = $this.attr('name'),
+                            id = $this.attr('id'),
+                            select = '<select name="' + name + '" id="' + id + '" data-default="option:residencial">' +
+                                '<option selected="selected" value="residencial">residencial</option>' + 
+                                '<option value="comercial">comercial</option>' +
+                                '<option value="celular">celular</option><option value="fax">fax</option>' +
+                                '<option value="outros">outros</option></select>';
+
+                        if ($.trim($this.val()) === '') {
+                            $this.replaceWith(select);
+                        }
+                    })
                 });
-
-
-
         });
     }(this, this.jQuery));
 </script>

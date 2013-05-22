@@ -156,7 +156,7 @@
             <td>
                 <?php 
                 $telefones = isset($user_meta['telefones']) ?
-                                json_decode($user_meta['telefones'][0]) : (object)array( array('type' => 'residencial', 'number' => '', 'isPublic' => 'admin') );
+                                json_decode($user_meta['telefones'][0]) : array( (object)array('type' => 'residencial', 'number' => '', 'isPublic' => 'admin') );
                 $len = count($telefones);
 
                 for ($i = 0; $i < $len; $i++) {

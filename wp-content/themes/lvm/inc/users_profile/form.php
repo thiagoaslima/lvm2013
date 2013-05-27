@@ -21,7 +21,7 @@
     </select>
 </script>
 
-<!-- <div id="wp-preload" style="position:absolute; top:0; left:0; bottom:0; right:0; z-index:99; background-color: white"></div> -->
+
 
 <div class="custom-profile">
 
@@ -35,7 +35,7 @@
 
             <td>
                 <input type="text" name="user-login" id="user-login" readonly value="<?php echo $user_info->user_login; ?>" class="regular-text">
-                <span class="description"><?php _e('Não é possível alterar o nomme cadastrado', 'lvm-lang'); ?></span>
+                <span class="description"><?php _e('Não é possível alterar o nome cadastrado', 'lvm-lang'); ?></span>
             </td>
         </tr>
 
@@ -230,77 +230,5 @@
 
 
     <!-- FORMAÇÃO ACADÊMICA / TITULAÇÃO -->
-    <br>
-    <h3 class="lvm-formacao"><?php _e('Formação acadêmica/Titulação', 'lvm-lang'); ?></h3>
-
-    <table class="form-table lvm-dados-pessoais">
-        <tr>
-            <th>
-                <button class="add-repeatable button">Adicionar formação</button>
-            </th>
-
-              <td>
-                <?php 
-                $formacoes = isset($user_meta['formacao']) ?
-                                json_decode($user_meta['formacao'][0]) : 
-                                array( (object)array(   'grau' => 'mestrado', 
-                                                        'instituicao' => '', 
-                                                        'curso' => '',
-                                                        'status' => '',
-                                                        'inicio' => '',
-                                                        'termino' => '',
-                                                        'titulo' => '',
-                                                        'orientador' => '',
-                                                        'coorientador' => '',
-                                                        'isPublic' => 'admin'
-                                                    ) 
-                                );
-                $len = count($formacoes);
-
-                for ($i = 0; $i < $len; $i++) {
-                    $formacao = $formacoes[$i];
-                ?>
-                <div class="repeatable">
-                    <div class="group" data-number="<?php echo $i; ?>" data-meta="formacao" data-keys="grau, instituicao, curso, status, inicio, termino, titulo, orientador, coorientador, isPublic">
-
-                        <label for="formacao-grau-<?php echo $i; ?>"><?php _e('Grau acadêmico', 'lvm-lang'); ?></label>
-                        <select name="formacao-grau-<?php echo $i; ?>" id="formacao-grau-<?php echo $i; ?>">
-                            <option <?php selected( $formacao->grau, 'livre docência' ); ?> value="livre docência">Livre docência</option>
-                            <option <?php selected( $formacao->grau, 'pós doutorado' ); ?> value="pós doutorado">Pós doutorado</option>
-                            <option <?php selected( $formacao->grau, 'doutorado' ); ?> value="doutorado">Doutorado</option>
-                            <option <?php selected( $formacao->grau, 'mestrado' ); ?> value="mestrado">Mestrado</option>
-                            <option <?php selected( $formacao->grau, 'mestrado profissionalizante' ); ?> value="mestrado profissionalizante">Mestrado Profissionalizante</option>
-                            <option <?php selected( $formacao->grau, 'especialização' ); ?> value="especialização">Especialização</option>
-                            <option <?php selected( $formacao->grau, 'graduação' ); ?> value="graduação">Graduação</option>
-                            <option <?php selected( $formacao->grau, 'ensino técnico' ); ?> value="ensino técnico">Ensino técnico</option>
-                        </select>
-                        <br>
-
-                        <label for="formacao-instituicao-<?php echo $i; ?>"><?php _e('Instituição', 'lvm-lang'); ?></label>
-                        <input type="text" name="formacao-instituicao-<?php echo $i; ?>" id="formacao-instituicao-<?php echo $i; ?>" value="<?php echo $formacao->instituicao; ?>" data-default="value:null" placeholder="fulano@ufrj.br" class="regular-text" />
-                        <br>
-
-                        <label for="formacao-curso-<?php echo $i; ?>"><?php _e('Curso', 'lvm-lang'); ?></label>
-                        <input type="text" name="formacao-curso-<?php echo $i; ?>" id="formacao-curso-<?php echo $i; ?>" value="<?php echo $formacao->curso; ?>" data-default="value:null" placeholder="fulano@ufrj.br" class="regular-text" />
-                        <br>
-
-                        <label for="formacao-status-<?php echo $i; ?>"><?php _e('Status do curso', 'lvm-lang'); ?></label>
-                        <input type="text" name="formacao-status-<?php echo $i; ?>" id="formacao-status-<?php echo $i; ?>" value="<?php echo $formacao->status; ?>" data-default="value:null" placeholder="fulano@ufrj.br" class="regular-text" />
-                        <br>
-
-                        <input type="text" name="formacao-curso-<?php echo $i; ?>" id="formacao-curso-<?php echo $i; ?>" value="<?php echo $formacao->curso; ?>" data-default="value:null" placeholder="fulano@ufrj.br" class="regular-text" />
-                        <br>
-
-                        <label class="description" for="formacao-isPublic-<?php echo $i; ?>"><?php _e('Informação visível para: ', 'lvm-lang'); ?></label>
-                        <select name="formacao-isPublic-<?php echo $i; ?>" id="formacao-isPublic-<?php echo $i; ?>" data-default="option:admin" >
-                            <option <?php selected( $formacao->isPublic, 'admin' ); ?> value="admin"><?php echo $msg_isPublic_admin; ?></option>
-                            <option <?php selected( $formacao->isPublic, 'logged' ); ?> value="logged"><?php echo $msg_isPublic_logged; ?></option>
-                            <option <?php selected( $formacao->isPublic, 'all' ); ?> value="all"><?php echo $msg_isPublic_all; ?></option>
-                        </select>
-                    </div><br>
-                </div>
-                <?php } ?>
-            </td>
-        </tr>
-    </table>
+    <!-- IN FUTURE: LOOK FOR FORMACAO.PHP IN THE SAME FOLDER -->
 </div>

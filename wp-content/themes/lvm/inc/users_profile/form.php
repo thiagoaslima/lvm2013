@@ -21,7 +21,7 @@
     </select>
 </script>
 
-
+<!-- <div id="wp-preload" style="position:absolute; top:0; left:0; bottom:0; right:0; z-index:99; background-color: white"></div> -->
 
 <div class="custom-profile">
 
@@ -265,16 +265,15 @@
 
                         <label for="formacao-grau-<?php echo $i; ?>"><?php _e('Grau acadêmico', 'lvm-lang'); ?></label>
                         <select name="formacao-grau-<?php echo $i; ?>" id="formacao-grau-<?php echo $i; ?>">
-                            <option <?php selected( $email->grau, 'livre docência' ); ?> value="livre docência">Livre docência</option>
-                            <option <?php selected( $email->grau, 'pós doutorado' ); ?> value="pós doutorado">Pós doutorado</option>
-                            <option <?php selected( $email->grau, 'doutorado' ); ?> value="doutorado">Doutorado</option>
-                            <option <?php selected( $email->grau, 'mestrado' ); ?> value="mestrado">Mestrado</option>
-                            <option <?php selected( $email->grau, 'mestrado profissionalizante' ); ?> value="mestrado profissionalizante">Mestrado Profissionalizante</option>
-                            <option <?php selected( $email->grau, 'especialização' ); ?> value="especialização">Especialização</option>
-                            <option <?php selected( $email->grau, 'graduação' ); ?> value="graduação">Graduação</option>
-                            <option <?php selected( $email->grau, 'ensino técnico' ); ?> value="ensino técnico">Ensino técnico</option>
+                            <option <?php selected( $formacao->grau, 'livre docência' ); ?> value="livre docência">Livre docência</option>
+                            <option <?php selected( $formacao->grau, 'pós doutorado' ); ?> value="pós doutorado">Pós doutorado</option>
+                            <option <?php selected( $formacao->grau, 'doutorado' ); ?> value="doutorado">Doutorado</option>
+                            <option <?php selected( $formacao->grau, 'mestrado' ); ?> value="mestrado">Mestrado</option>
+                            <option <?php selected( $formacao->grau, 'mestrado profissionalizante' ); ?> value="mestrado profissionalizante">Mestrado Profissionalizante</option>
+                            <option <?php selected( $formacao->grau, 'especialização' ); ?> value="especialização">Especialização</option>
+                            <option <?php selected( $formacao->grau, 'graduação' ); ?> value="graduação">Graduação</option>
+                            <option <?php selected( $formacao->grau, 'ensino técnico' ); ?> value="ensino técnico">Ensino técnico</option>
                         </select>
-                        <input type="text" name="formacao-grau-<?php echo $i; ?>" id="formacao-grau-<?php echo $i; ?>" value="<?php echo $formacao->grau; ?>" data-default="value:null" placeholder="fulano@ufrj.br" class="regular-text" />
                         <br>
 
                         <label for="formacao-instituicao-<?php echo $i; ?>"><?php _e('Instituição', 'lvm-lang'); ?></label>

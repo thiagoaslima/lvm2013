@@ -1,5 +1,6 @@
 <script>
-    (function (w, $) {
+    (function (w, doc, $) {
+
         $(function () {
 
             <?php if ( !current_user_can('manage_options') ) : ?>
@@ -9,7 +10,7 @@
             $('#display_name').clone().appendTo('.display_name').end().remove();
             $('#password').clone().appendTo('.row-password').unwrap('tr#password').end().remove();
             
-            $('#your-profile').children().not('input[type="hidden"], .custom-profile, .submit').remove();
+            $('#your-profile').children().not('input[type="hidden"], #wp-preload, .custom-profile, .submit').remove();
             <?php endif; ?>
 
 
@@ -64,5 +65,5 @@
                     })
                 });
         });
-    }(this, this.jQuery));
+    }(this, this.document, this.jQuery));
 </script>

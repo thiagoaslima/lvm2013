@@ -22,13 +22,57 @@ function json_encode_unicode($struct) {
    return preg_replace("/\\\\u([a-f0-9]{4})/e", "iconv('UCS-4LE','UTF-8',pack('V', hexdec('U$1')))", json_encode($struct));
 }
 
-// include user meta boxes
+// list users as array
+function get_all_users() {
+    global $wpdb;
+
+    $authors = array();
+    foreach ( $wpdb->get_results("SELECT ID, meta_key AS meta FROM $wpdb->users AS user JOIN $wpdb->usermeta AS meta ON user.ID = meta.user_id") as $row) :
+        $author = array(
+            'ID' => $row->ID,
+            'name' => $row->meta
+            );
+        array_push($authors, $author);
+    endforeach;
+
+    return $authors;
+}
+
+// function get_all_authors() {
+//     global $wpdb;
+
+//     foreach ( $wpdb->get_results("SELECT DISTINCT post_author, COUNT(ID) AS count FROM $wpdb->posts WHERE post_type = 'post' AND " . get_private_posts_cap_sql( 'post' ) . " GROUP BY post_author") as $row ) :
+//         $author = get_userdata( $row->post_author );
+//         $authors[$row->post_author]['name'] = $author->display_name;
+//         $authors[$row->post_author]['post_count'] = $row->count;
+//         $authors[$row->post_author]['posts_url'] = get_author_posts_url( $author->ID, $author->user_nicename );
+//     endforeach;
+
+//     return $authors;
+// }
+
+// include user profile configuration
 if ( is_admin() )
 {
     if ( file_exists( currPath() . path('/inc/users_profile/init.php', '/') ) )
     {
         include 'inc/users_profile/init.php';
         include 'inc/users_profile/save.php';
+    } 
+}
+
+// create publicacations custom post type
+if ( is_admin() )
+{
+    // check if exists the folder of custom post types
+    $path = path(currPath() . path('/inc/cpt', '/'), '/');
+    if ( file_exists( $path ) )
+    {
+        // check if specific cpt exists and call the files
+        if( file_exists( $path. path('/publications', '/') )) {
+            include 'inc/cpt/publications/init.php';
+            // include 'inc/cpt/publications/save.php';
+        }
     } 
 }
 
@@ -298,7 +342,7 @@ function html5wp_excerpt($length_callback = '', $more_callback = '')
 function html5_blank_view_article($more)
 {
     global $post;
-    return '... <a class="view-article" href="' . get_permalink($post->ID) . '">' . __('View Article', 'html5blank') . '</a>';
+    return '... <a class="view-article" href="' . get_permalink($post->ID) . '">' . __('Ler mais', 'html5blank') . '</a>';
 }
 
 // Remove Admin bar

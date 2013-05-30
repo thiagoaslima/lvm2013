@@ -27,10 +27,10 @@ function get_all_users() {
     global $wpdb;
 
     $authors = array();
-    foreach ( $wpdb->get_results("SELECT ID, meta_key AS meta FROM $wpdb->users AS user JOIN $wpdb->usermeta AS meta ON user.ID = meta.user_id") as $row) :
+    foreach ( $wpdb->get_results("SELECT ID, meta1.meta_value as first_name, meta2.meta_value as last_name FROM $wpdb->users AS user JOIN $wpdb->usermeta AS meta1 JOIN $wpdb->usermeta AS meta2 ON user.ID = meta1.user_id AND meta1.user_id = meta2.user_id AND meta1.meta_key = 'first_name' AND meta2.meta_key = 'last_name' ") as $row) :
         $author = array(
             'ID' => $row->ID,
-            'name' => $row->meta
+            'name' => $row->first_name . " " . $row->last_name
             );
         array_push($authors, $author);
     endforeach;
